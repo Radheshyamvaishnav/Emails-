@@ -1,19 +1,33 @@
 
 import smtplib
+from email.message import EmailMessage
 
 
-sender_email = "Enter Sender's Email Here"
-rec_email = "Enter Recevier's Email Here"
-password = "Enter Sender's Password Here"  # It's always a best practice to use App Password over here which is generated after enabling 2 step verification in your google account.
-msg = ""   # Enter the Message you want to Send  
-server = smtplib.SMTP('smtp.gmail.com', 587)
+Email_Address = "Enter Your email Address"
+Email_Password = "Enter Your Password here"
 
-server.starttls()
+msg = EmailMessage()
+msg['Subject'] = "Enter the Subject of Email"
+msg['From'] = Email_Address
+msg['To'] = "Enter the receivers email address"
+msg.set_content('Enter Your Message Here')
 
-server.login(sender_email, password)
-server.sendmail(sender_email, rec_email, msg)
+# You Can use below code to attach a image to your mail
+#with open('img.jpg', 'rb') as f: 
+#     file_data = f.read()
+#     file_name = f.name
+# msg.add_attachment(file_data, maintype='application', subtype = 'octect-stream', filename=  file_name )
 
 
-print("EmailSent")
+with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+
+    smtp.login(Email_Address, Email_Password)
+
+    smtp.send_message(msg)
+
+
+
+
+
 
 
